@@ -3,21 +3,26 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { signIn, signOut, UseSession, getProviders } from "next-auth/react";
+import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 const Navigation = () => {
-  const isUserLoggedIn = true;
+  // const isUserLoggedIn = true;
+  // ^ This mocks the state of being logged in but since we have already created our User model, we can now substitute it.
+
+  const { data: session } = useSession();
 
   const [providers, setProviders] = useState(null);
 
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   useEffect(() => {
-    const setProviders = async () => {
-      const responsse = await getProviders();
+    const setUpProviders = async () => {
+      const response = await getProviders();
       setProviders(response);
     };
-  });
+
+    setUpProviders();
+  }, []);
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
@@ -32,10 +37,16 @@ const Navigation = () => {
         <p className="logo-text">Promptopia</p>
       </Link>
 
+      {/* {alert(session?.user)}
+      Responds with USER NOT FOUND */}
+
+      {/* {alert(providers)}
+      Responds with NULL */}
+
       {/* Desk Navigation */}
 
       <div className="sm:flex hidden">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/create-prompt" className="black_btn">
               Create Post
@@ -75,7 +86,7 @@ const Navigation = () => {
       {/* Mobile Navigation */}
 
       <div className="sm:hidden flex relative">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex">
             <Image
               src="/assets/images/logo.svg"
