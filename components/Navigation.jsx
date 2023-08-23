@@ -58,7 +58,7 @@ const Navigation = () => {
 
             <Link href="/profile">
               <Image
-                src="/assets/images/logo.svg"
+                src={session?.user.image}
                 alt="profile"
                 className="rounded-full"
                 width={37}
@@ -89,7 +89,7 @@ const Navigation = () => {
         {session?.user ? (
           <div className="flex">
             <Image
-              src="/assets/images/logo.svg"
+              src={session?.user.image}
               alt="profile"
               className="rounded-full"
               width={37}
